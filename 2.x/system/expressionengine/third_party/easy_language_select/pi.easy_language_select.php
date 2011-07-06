@@ -55,7 +55,7 @@ class Easy_language_select
         if($tabindex) $extra .= ' tabindex="'.intval($tabindex).'"';
         if($dir) $extra .= ' dir="'.trim($dir).'"';
         
-        $options = array($title, '--------------------');
+        $options = array('' => $title, '--------------------');
         
         # options
         foreach ( $languages as $key => $val )
