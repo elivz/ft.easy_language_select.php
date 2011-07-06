@@ -45,6 +45,8 @@ class Easy_language_select_ft extends EE_Fieldtype {
 		# get the language file
 		$this->EE->lang->loadfile($this->addon_name);
 		
+		$name = isset($this->cell_name) ? $this->cell_name : $this->field_name;
+		
 		if ( empty($data) ) $data = $this->EE->config->item('xml_lang');
 		
 		$file = APPPATH.'config/languages'.EXT;
@@ -66,8 +68,18 @@ class Easy_language_select_ft extends EE_Fieldtype {
 		}
 		
 		# return the field
-		return form_dropdown($this->field_name, $options, $data, 'dir="'.$dir.'" id="'.$this->field_name.'"');
+		return form_dropdown($name, $options, $data, 'dir="'.$dir.'" id="'.$this->field_name.'"');
 	}
+	
+	function display_cell($data)
+	{
+	   return $this->display_field($data);
+	}
+	
+	function save_cell( $data )
+    {
+        return $data;
+    }
 	
 	// --------------------------------------------------------------------
 	
@@ -93,6 +105,23 @@ class Easy_language_select_ft extends EE_Fieldtype {
 			NBS.NBS.NBS.NBS.NBS .
 			'<label>'.form_radio('localize', 'n', ($localize=='n')).NBS.'No</label>'
 		);
+	}
+	
+	function display_cell_settings($data)
+	{
+		# get the language file
+		$this->EE->lang->loadfile($this->addon_name);
+		
+		# settings
+		$localize = isset($data['localize']) ? $data['localize'] : $this->settings['localize'];
+		
+		# create the field
+		return array(array(
+			lang('translate_languages'),
+			'<label>'.form_radio('localize', 'y', ($localize=='y')).NBS.'Yes</label>' .
+			NBS.NBS.NBS.NBS.NBS .
+			'<label>'.form_radio('localize', 'n', ($localize=='n')).NBS.'No</label>'
+		));
 	}
 	
 	// --------------------------------------------------------------------
